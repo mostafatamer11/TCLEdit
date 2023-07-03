@@ -13,10 +13,19 @@ class TCEdit:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+    UP = "\033[A"
+    DOWN = "\033[B"
+    LEFT = "\033[D"
+    RIGHT = "\033[C"
+    SCREEN = "\033[2J"
 
-    def rgb(rgb):
-        r, g, b = rgb
-        return f"\u001b[38;2;{r};{g};{b}m"
+    def rgb(fg=(100, 100, 100), bg=(0, 0, 0)):
+        r1, g2, b3 = fg
+        r2, g2, b2 = bg
+        print(f"\033[38;2;{r1};{g2};{b3}m")
+        print(f"\033[48;2;{r2};{g2};{b2}m")
+
+
 
 
 
@@ -41,3 +50,13 @@ def CP(word:str, time:float|int = 0.2, *args):
     print("\n")
 
     print(TCEdit.ENDC)
+
+
+TCEdit.rgb((0, 0, 250))
+
+i = 0
+while True:
+    try:
+        print(f"\033[{i}m")
+        i+=1
+    except:break
