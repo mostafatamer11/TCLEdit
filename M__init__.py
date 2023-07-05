@@ -14,6 +14,11 @@ class CTAEdit:
 
     Each of those
     """
+
+    #      ^^
+    # NOTE || just don't touch this string
+
+    
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     FG_CYAN = '\033[96m'
