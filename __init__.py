@@ -22,6 +22,8 @@ class TCAEdit:
     LINEUP = "\033[2A"
     LINECLEAR = "\033[2K"
     HOME = "\033[H"
+    INVISIBLE = "\033[?25l"
+    VISIBLE = ""
 
 
     def cursor(movement:str, times:int):
@@ -69,5 +71,3 @@ def signal_handler(signum, frame):
 
 # Register signal_handler with SIGINT
 signal.signal(signal.SIGINT, signal_handler)
-
-print("hi")
