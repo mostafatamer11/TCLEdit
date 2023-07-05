@@ -53,8 +53,8 @@ class CTAEdit:
     HOME = "\033[H"
     INVISIBLE = "\033[?25l"
     VISIBLE = "\033[?25h"
-    UNBOLD = "\033[22m"
-    UNUNDERLINE = "\033[24m"
+    UN_BOLD = "\033[22m"
+    UN_UNDERLINE = "\033[24m"
 
 
 
