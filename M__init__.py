@@ -1,7 +1,21 @@
 from time import sleep
 from sys import stdout
+import numpy as np
 import sys
+from sys import stderr as error
 import signal
+
+
+def signal_handler(signum, frame):
+    # This will run when the signal is recieved
+    print(CTAEdit.END, signum, frame)
+    # Clean up nicely then exit
+    sys.exit(0)
+
+# Register signal_handler with SIGINT
+signal.signal(signal.SIGINT, signal_handler)
+
+
 
 class CTAEdit:
     """
@@ -20,7 +34,7 @@ class CTAEdit:
 
     
     HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
+    FG_RED = '\033[91m'
     FG_CYAN = '\033[96m'
     FG_GREEN = '\033[92m'
     WARNING = '\033[93m'
@@ -53,17 +67,32 @@ class CTAEdit:
         return
 
 
-    def rgb(self, **kwargs):
-        # This 2 lines statement checks if you typed the correct parameters its advanced py and its not
-        # nesserly a skill                                                                            the backslash divides the code into two lines
-        assert (("fg" in kwargs) and (type(kwargs.get("fg", None) == tuple) and (len(kwargs.get("fg", "0")) == 3)))\
-            or (("bg" in kwargs) and (type(kwargs.get("bg", None) == tuple) and (len(kwargs.get("bg", "0")) == 3)))\
-                , "YOU DIDN'T WRITE 'fg=(r, g, b)' or 'bg=(r, g, b)'"
+    def rgb(**kwargs):
+        # This 2 lines statement checks if you typed the correct parameters, its advanced py and its not
+        # nesserly a skill                                                the backslash divides the code into two lines(like too much)
+        if not (("fg" in kwargs) and (type(kwargs.get("fg", None)) == tuple)\
+                and (len(kwargs.get("fg", "0")) == 3) and (np.array([x for x in kwargs.get("fg", (-1))]).min() >= 0))\
+            or (("bg" in kwargs) and (type(kwargs.get("bg", None)) == tuple)\
+                and (len(kwargs.get("bg", "0")) == 3) and (np.array([int(x) for x in kwargs.get("bg", (-1))]).min() >= 0))\
+                :
+                print(f"{CTAEdit.FG_RED}CTAError: The rgb parameters doesn\'nt follow the rules\nThe rulses are:\n\
+                        1 - The parameters are key word parameters\n\
+                        2 - The Key words are 'fg=', 'bg=' only\n\
+                        3 - The RGB values of the parameters must be in a tuple data structure\n\
+                        4 - The length of the tuple must be 3 items\n\
+                        5 - The mininum value for any item is 0{CTAEdit.END}", file=error)
 
-        r1, g1, b1 = kwargs.get("fg", (TypeError(self.__error), TypeError(self.__error), TypeError(self.__error)))
-        r2, g2, b2 = kwargs.get("bg", (TypeError(self.__error), TypeError(self.__error), TypeError(self.__error)))
-        print(f"\033[38;2;{r1};{g1};{b1}m")
-        print(f"\033[48;2;{r2};{g2};{b2}m")
+        r1 = g1 = b1 = None
+        if kwargs.get("fg", None):
+            r1, g1, b1 = kwargs.get("fg") 
+        if kwargs.get("bg", None):
+            r2, g2, b2 = kwargs.get("bg") 
+
+        if kwargs.get("fg", None):
+            print(f"\033[38;2;{r1};{g1};{b1}m")
+
+        if kwargs.get("bg", None):
+            print(f"\033[48;2;{r2};{g2};{b2}m")
 
 
     def move(line:int, column:int):
@@ -90,15 +119,7 @@ def CP(word:str, time:float|int = 0.2, *args):
         sleep(time)
     print("\n")
 
-    print(CTAEdit.ENDC)
+    print(CTAEdit.END)
 
-def signal_handler(signum, frame):
-    # This will run when the signal is recieved
-    print(CTAEdit.ENDC)
-    # Clean up nicely then exit
-    sys.exit(0)
 
-# Register signal_handler with SIGINT
-signal.signal(signal.SIGINT, signal_handler)
-#hi mostafa 
-
+CTAEdit.rgb(fg=(-1, 2, 2))
