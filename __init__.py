@@ -1,9 +1,9 @@
 from time import sleep
 from sys import stdout
+import sys
+import signal
 
-
-
-class TCEdit:
+class TCAEdit:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKCYAN = '\033[96m'
@@ -13,11 +13,20 @@ class TCEdit:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
-    UP = "\033[A"
-    DOWN = "\033[B"
-    LEFT = "\033[D"
-    RIGHT = "\033[C"
-    SCREEN = "\033[2J"
+    DOWN = "B"
+    LEFT = "D"
+    RIGHT = "C"
+    UP = "A"
+    SCREENCLEAR = "\033[2J"
+    WHITE = "\033[97m"
+    LINEUP = "\033[2A"
+    LINECLEAR = "\033[2K"
+    HOME = "\033[H"
+
+
+    def cursor(movement:str, times:int):
+        print(f"\033[{times}{movement}")
+
 
     def rgb(fg=(100, 100, 100), bg=(0, 0, 0)):
         r1, g2, b3 = fg
@@ -26,13 +35,14 @@ class TCEdit:
         print(f"\033[48;2;{r2};{g2};{b2}m")
 
 
-
+    def move(line:int, column:int):
+        print(f"\033[{line};{column}H")
 
 
 def CP(word:str, time:float|int = 0.2, *args):
     """cp function makes you add whatever str you like and and add an integer for the time
     
-    >>>CP("w0w")
+    >>>CP("wow")
     ...w  (after 0.2 sec)
     ...wo (after 0.2 sec)
     ...wow(after 0.2 sec)
@@ -41,7 +51,7 @@ def CP(word:str, time:float|int = 0.2, *args):
     rgb = True if len(args) == 3 else False
 
     if rgb:
-        print(TCEdit.rgb(args))
+        print(TCAEdit.rgb(args))
 
     for char in word:
         print(char, end="")
@@ -49,14 +59,14 @@ def CP(word:str, time:float|int = 0.2, *args):
         sleep(time)
     print("\n")
 
-    print(TCEdit.ENDC)
+    print(TCAEdit.ENDC)
 
+def signal_handler(signum, frame):
+    # This will run when the signal is recieved
+    print(TCAEdit.ENDC)
+    # Clean up nicely then exit
+    sys.exit(0)
 
-TCEdit.rgb((0, 0, 250))
+# Register signal_handler with SIGINT
+signal.signal(signal.SIGINT, signal_handler)
 
-i = 0
-while True:
-    try:
-        print(f"\033[{i}m")
-        i+=1
-    except:break
