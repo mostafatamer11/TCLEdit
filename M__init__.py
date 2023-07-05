@@ -3,14 +3,24 @@ from sys import stdout
 import sys
 import signal
 
-class TCAEdit:
+class CTAEdit:
+    """
+    The CTAEdit class name stands for
+    Customized Terminal Ansi Editor,
+    Each attribute got its own proprty,
+    To use it print it and the rest of the text will
+    have this property untill you print CTAEdit.END
+    which is a special string that resets all of your customization.
+
+    Each of those
+    """
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     FG_CYAN = '\033[96m'
     FG_GREEN = '\033[92m'
     WARNING = '\033[93m'
     FAIL = '\033[91m'
-    ENDC = '\033[0m'
+    END = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
     DOWN = "B"
@@ -33,10 +43,21 @@ class TCAEdit:
         print(f"\033[{times}{movement}")
 
 
-    def rgb(fg=(100, 100, 100), bg=(0, 0, 0)):
-        r1, g2, b3 = fg
-        r2, g2, b2 = bg
-        print(f"\033[38;2;{r1};{g2};{b3}m")
+    def __error(self):
+        print("CTAEditError: You didnt assign a vlaue for fg or bg")
+        return
+
+
+    def rgb(self, **kwargs):
+        # This 2 lines statement checks if you typed the correct parameters its advanced py and its not
+        # nesserly a skill                                                                            the backslash divides the code into two lines
+        assert (("fg" in kwargs) and (type(kwargs.get("fg", None) == tuple) and (len(kwargs.get("fg", "0")) == 3)))\
+            or (("bg" in kwargs) and (type(kwargs.get("bg", None) == tuple) and (len(kwargs.get("bg", "0")) == 3)))\
+                , "YOU DIDN'T WRITE 'fg=(r, g, b)' or 'bg=(r, g, b)'"
+
+        r1, g1, b1 = kwargs.get("fg", (TypeError(self.__error), TypeError(self.__error), TypeError(self.__error)))
+        r2, g2, b2 = kwargs.get("bg", (TypeError(self.__error), TypeError(self.__error), TypeError(self.__error)))
+        print(f"\033[38;2;{r1};{g1};{b1}m")
         print(f"\033[48;2;{r2};{g2};{b2}m")
 
 
@@ -56,7 +77,7 @@ def CP(word:str, time:float|int = 0.2, *args):
     rgb = True if len(args) == 3 else False
 
     if rgb:
-        print(TCAEdit.rgb(args))
+        print(CTAEdit.rgb(args))
 
     for char in word:
         print(char, end="")
@@ -64,11 +85,11 @@ def CP(word:str, time:float|int = 0.2, *args):
         sleep(time)
     print("\n")
 
-    print(TCAEdit.ENDC)
+    print(CTAEdit.ENDC)
 
 def signal_handler(signum, frame):
     # This will run when the signal is recieved
-    print(TCAEdit.ENDC)
+    print(CTAEdit.ENDC)
     # Clean up nicely then exit
     sys.exit(0)
 
