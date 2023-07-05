@@ -23,7 +23,7 @@ class TCAEdit:
     LINECLEAR = "\033[2K"
     HOME = "\033[H"
     INVISIBLE = "\033[?25l"
-    VISIBLE = "[?25h"
+    VISIBLE = "\033[?25h"
 
 
     def cursor(movement:str, times:int):
