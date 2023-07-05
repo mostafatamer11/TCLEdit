@@ -121,5 +121,15 @@ def CP(word:str, time:float|int = 0.2, *args):
 
     print(CTAEdit.END)
 
+def signal_handler(signum, frame):
+    # This will run when the signal is recieved
+    print(CTAEdit.END)
+    # Clean up nicely then exit
+    sys.exit(0)
+
+# Register signal_handler with SIGINT
+signal.signal(signal.SIGINT, signal_handler)
+#hi mostafa 
+
 
 CTAEdit.rgb(fg=(-1, 2, 2))
