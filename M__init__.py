@@ -24,6 +24,8 @@ class TCAEdit:
     HOME = "\033[H"
     INVISIBLE = "\033[?25l"
     VISIBLE = "\033[?25h"
+    UNBOLD = "\033[22m"
+    UNUNDERLINE = "\033[24m"
 
 
     def cursor(movement:str, times:int):
