@@ -70,3 +70,4 @@ def signal_handler(signum, frame):
 # Register signal_handler with SIGINT
 signal.signal(signal.SIGINT, signal_handler)
 
+print("hi")
