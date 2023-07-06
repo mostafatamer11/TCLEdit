@@ -1,5 +1,5 @@
 from __future__ import barry_as_FLUFL, annotations
-
+from typing import Tuple, List, Dict, NoReturn, NotRequired, Any
 from time import sleep
 from sys import stdout
 import numpy as np
@@ -60,16 +60,11 @@ class CTAEdit:
 
 
 
-    def cursor(movement:str, times:int):
+    def cursor(movement:str, times:int) -> NoReturn:
         print(f"\033[{times}{movement}")
 
 
-    def __error(self):
-        print("CTAEditError: You didnt assign a vlaue for fg or bg")
-        return
-
-
-    def rgb(**kwargs):
+    def rgb( **kwargs: Dict[str,Tuple[int, int, int]]):
         # This 2 lines statement checks if you typed the correct parameters, its advanced py and its not
         # nesserly a skill                                                the backslash divides the code into two lines(like too much)
         if not (("fg" in kwargs) and (type(kwargs.get("fg", None)) == tuple)\
