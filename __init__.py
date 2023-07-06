@@ -59,15 +59,17 @@ class CTAEdit:
     UN_UNDERLINE = "\033[24m"
 
 
-
+    @staticmethod
     def cursor(movement:str, times:int) -> NoReturn:
         print(f"\033[{times}{movement}")
 
 
-    def rgb( **kwargs: Dict[str,Tuple[int, int, int]]):
-        # This 2 lines statement checks if you typed the correct parameters, its advanced py and its not
-        # nesserly a skill                                                the backslash divides the code into two lines(like too much)
-        if not (("fg" in kwargs) and (type(kwargs.get("fg", None)) == tuple)\
+    def rgb( **kwargs: Tuple[int, int, int]):
+        """You are right"""
+        # This 2 lines statement checks if you typed the correct parameters,\
+        #  its advanced py and its not
+        # nesserly a skill
+        if not (("fg" in kwargs) and (isinstance(kwargs.get("fg", None)), tuple)\
                 and (len(kwargs.get("fg", "0")) == 3) and (np.array([x for x in kwargs.get("fg", (-1))]).min() >= 0))\
             or (("bg" in kwargs) and (type(kwargs.get("bg", None)) == tuple)\
                 and (len(kwargs.get("bg", "0")) == 3) and (np.array([int(x) for x in kwargs.get("bg", (-1))]).min() >= 0))\
@@ -96,7 +98,7 @@ class CTAEdit:
         print(f"\033[{line};{column}H")
 
 
-def CP(word:str, time:float|int = 0.2, *args):
+def CP(word:str, time:float|int = 0.2, *args: Tuple[int, int, int]):
     """cp function makes you add whatever str you like and and add an integer for the time
     
     >>>CP("wow")
@@ -108,7 +110,7 @@ def CP(word:str, time:float|int = 0.2, *args):
     rgb = True if len(args) == 3 else False
 
     if rgb:
-        print(CTAEdit.rgb(args))
+        print(CTAEdit.rgb(fg = args))
 
     for char in word:
         print(char, end="")
@@ -129,4 +131,4 @@ signal.signal(signal.SIGINT, signal_handler)
 #hi mostafa 
 
 
-CTAEdit.rgb(fg=(-1, 2, 2))
+CTAEdit.rgb(fg = (1, 1, 1))
