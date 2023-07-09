@@ -14,9 +14,9 @@ def signal_handler(signum, frame):
     # Clean up nicely then exit
     sys.exit(0)
 
+
 # Register signal_handler with SIGINT
 signal.signal(signal.SIGINT, signal_handler)
-
 
 
 class CTAEdit:
@@ -34,7 +34,6 @@ class CTAEdit:
     #      ^^
     # NOTE || just don't touch this string
 
-    
     HEADER = '\033[95m'
     FG_RED = '\033[91m'
     FG_CYAN = '\033[96m'
@@ -58,47 +57,60 @@ class CTAEdit:
     UN_BOLD = "\033[22m"
     UN_UNDERLINE = "\033[24m"
 
-
     @staticmethod
-    def cursor(movement:str, times:int) -> NoReturn:
+    def cursor(movement: str, times: int) -> NoReturn:
+        """this method moves the cursor
+`CTAEdit.UP` or `CTAEdit.LEFT` or `CTAEdit.DOWN` or `CTAEdit.RIGHT`"""
         print(f"\033[{times}{movement}")
 
-
-    def rgb( **kwargs: Tuple[int, int, int]):
-        """You are right"""
+    @staticmethod
+    def rgb(**kwargs: Tuple[int, int, int]):
+        """
+change the color of text to the rgb value
+>>>CTAEdit.rgb(fg=(255, 255, 255), bg=(150, 100, 50))
+"""
         # This 2 lines statement checks if you typed the correct parameters,\
         #  its advanced py and its not
         # nesserly a skill
-        if not (("fg" in kwargs) and (isinstance(kwargs.get("fg", None)), tuple)\
-                and (len(kwargs.get("fg", "0")) == 3) and (np.array([x for x in kwargs.get("fg", (-1))]).min() >= 0))\
-            or (("bg" in kwargs) and (type(kwargs.get("bg", None)) == tuple)\
-                and (len(kwargs.get("bg", "0")) == 3) and (np.array([int(x) for x in kwargs.get("bg", (-1))]).min() >= 0))\
-                :
-                print(f"{CTAEdit.FG_RED}CTAError: The rgb parameters doesn\'nt follow the rules\nThe rulses are:\n\
-                        1 - The parameters are key word parameters\n\
-                        2 - The Key words are 'fg=', 'bg=' only\n\
-                        3 - The RGB values of the parameters must be in a tuple data structure\n\
-                        4 - The length of the tuple must be 3 items\n\
-                        5 - The mininum value for any item is 0{CTAEdit.END}", file=error)
+        if ("fg" in kwargs) and (isinstance(kwargs.get("fg", bool), tuple))\
+                and (len(kwargs.get("fg", "0")) == 3)\
+                and (np.array([x for x in kwargs.get("fg", (-1))]).min() >= 0):
+            f_g = True
+            r_1, g_1, b_1 = kwargs["fg"]
+            print(f"\033[38;2;{r_1};{g_1};{b_1}m")
 
-        r1 = g1 = b1 = None
-        if kwargs.get("fg", None):
-            r1, g1, b1 = kwargs.get("fg") 
-        if kwargs.get("bg", None):
-            r2, g2, b2 = kwargs.get("bg") 
+        if ("bg" in kwargs) and (isinstance(kwargs.get("bg", bool), tuple))\
+                and (len(kwargs.get("bg", "0")) == 3)\
+                and (np.array([x for x in kwargs.get("bg", (-1))]).min() >= 0):
+            b_g = True
+            r_2, g_2, b_2 = kwargs["bg"]
+            print(f"\033[48;2;{r_2};{g_2};{b_2}m")
+        try:
+            if not b_g or f_g:
+                print(f"""{CTAEdit.FG_RED}CTAError: The rgb parameters doesn\'nt \
+follow the rules\nThe rulses are:\n\
+1 - The parameters are key word parameters\n\
+2 - The Key words are 'fg=', 'bg=' only\n\
+3 - The RGB values of the parameters must be in a tuple \
+data structure\n\
+4 - The length of the tuple must be 3 items\n\
+5 - The mininum value for any item is 0{CTAEdit.END}""", file=error)
+        except UnboundLocalError:
+            print(f"""{CTAEdit.FG_RED}CTAError: The rgb parameters doesn\'nt \
+follow the rules\nThe rulses are:\n\
+1 - The parameters are key word parameters\n\
+2 - The Key words are 'fg=', 'bg=' only\n\
+3 - The RGB values of the parameters must be in a tuple \
+data structure\n\
+4 - The length of the tuple must be 3 items\n\
+5 - The mininum value for any item is 0{CTAEdit.END}""", file=error)
 
-        if kwargs.get("fg", None):
-            print(f"\033[38;2;{r1};{g1};{b1}m")
-
-        if kwargs.get("bg", None):
-            print(f"\033[48;2;{r2};{g2};{b2}m")
-
-
-    def move(line:int, column:int):
+    @staticmethod
+    def move(line: int, column: int):
         print(f"\033[{line};{column}H")
 
 
-def CP(word:str, time:float|int = 0.2, *args: Tuple[int, int, int]):
+def CP(word: str, time: float | int = 0.2, *args: Tuple[int, int, int]):
     """cp function makes you add whatever str you like and and add an integer for the time
     
     >>>CP("wow")
@@ -131,4 +143,3 @@ signal.signal(signal.SIGINT, signal_handler)
 #hi mostafa 
 
 
-CTAEdit.rgb(fg = (1, 1, 1))
