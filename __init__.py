@@ -8,6 +8,43 @@ from sys import stderr as error
 import signal
 
 
+class _CREAD_MACROS:
+    BOLD = 1
+    DIM = 2
+    ITALIC = 3
+    UNDERLINE = 4
+    BLINK = 5
+    REVERSE = 6
+    INVISIBLE = 7
+    DASHED = 8
+    UN_BOLD = 9
+    UN_DIM = 10
+    UN_ITALIC = 11
+    UN_UNDERLINE = 12
+    UN_BLINK = 13
+    UN_REVERSE = 14
+    UN_INVISIBLE = 15
+    UN_DASHED = 16
+    FG_BLACK = 17
+    FG_RED = 18
+    FG_GREEN = 19
+    FG_YELLOW = 20
+    FG_BLUE = 21
+    FG_MAGENTA = 22
+    FG_CYAN = 23
+    FG_WHITE = 24
+    FG_DEFAULT = 25
+    BG_BLACK = 26
+    BG_RED = 27
+    BG_GREEN = 28
+    BG_YELLOW = 29
+    BG_BLUE = 30
+    BG_MAGENTA = 31
+    BG_CYAN = 32
+    BG_WHITE = 33
+    BG_DEFAULT = 34
+    RESET = 0
+
 def signal_handler(signum, frame):
     # This will run when the signal is recieved
     print(CTAEdit.END, signum, frame)
