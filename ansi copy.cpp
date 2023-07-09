@@ -7,6 +7,7 @@
  */
 #include <iostream>
 
+std::string macro(int choice){
 #define RESET          "\033[0m"
 /*
  *  effects
@@ -48,15 +49,12 @@
 #define BG_BLACK       "\033[30m"
 #define BG_RED         "\033[31m"
 #define BG_GREEN       "\033[32m"
-#define BG_YELLOW        "\033[33m"
+#define BG_YELLOW      "\033[33m"
 #define BG_BLUE        "\033[34m"
 #define BG_MAGENTA     "\033[35m"
 #define BG_CYAN        "\033[36m"
 #define BG_WHITE       "\033[37m"
 #define BG_DEFAULT     "\033[38m"
-
-using namespace std;
-string macro(int choice){
 switch (choice) {
         case 0:
             return RESET;
@@ -128,7 +126,5 @@ switch (choice) {
             return BG_WHITE;
         case 34:
             return BG_DEFAULT;
-        default:
-            return NULL;
-    }
+}
 }
